@@ -1,8 +1,21 @@
 name: My First Github Action
 on: [push]
 jobs:
-  printHelloWorld:
+  build-app:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello world!!"
-      - run: echo "this is step2"
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.17.0"
+      - name: Install node_modules
+        run: yarn
+      - name: Build the project
+        run: yarn build
+      - name: Deploying the project
+        env:
+          VERCEL_ORG_ID: team_K4ILEJWUj0acrDl9c43ZZHB5
+          VERCEL_PROJECT_ID: prj_BrPTG5CG410QUSk7ZrmMBouHdkeQ
+        run: yarn deploy
+      - name: Setup finish
+        run: echo "hurray!"
